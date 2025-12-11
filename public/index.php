@@ -25,6 +25,9 @@ $error = $_GET["error"] ?? null;
 <body>
     <div class="container-login">
         <form action="/login.php" method="POST" class="form-login">
+            <div class="">
+                <img src="/image/logo.png" alt="Логотип">
+            </div>
             <h1>Вход</h1>
             <p>Добро пожаловать! Введите логин и пароль для входа в систему</p>
             <?php if ($error): ?>

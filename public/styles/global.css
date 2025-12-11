@@ -63,7 +63,6 @@ input:focus {
   color: var(--color-red);
   display: flex;
   text-align: center;
-  justify-content: center;
   gap: 7px;
 }
 
