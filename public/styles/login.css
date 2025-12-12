@@ -6,14 +6,14 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  min-height: 90vh;
 }
 
 .form-login {
   background-color: var(--color-white);
   border-radius: var(--radius-10);
   padding: 3em;
-  max-width: 450px;
+  max-width: 460px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
 
   display: flex;
@@ -28,5 +28,5 @@ body {
 }
 
 .form-login img {
-  max-width: 120px;
+  max-width: 200px;
 }

@@ -1,0 +1,29 @@
+.container-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5em 0;
+}
+
+.container-header nav {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.container-header nav > a {
+  padding: 0.6rem 1rem;
+  transition: all 0.2s ease;
+  border-radius: var(--radius-10);
+}
+
+header {
+  background-color: var(--color-white);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.02);
+}
+
+header .logo img {
+  max-width: 150px;
+}
