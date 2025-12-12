@@ -4,8 +4,9 @@ switch ($_SESSION['user_role'] ?? 'guest') {
         $menuItems = [
 
             [
-                'url' => '/competitions.php',
-                'title' => 'Соревнования'
+                'url' => '/competitionsGuest.php',
+                'title' => 'Соревнования',
+                'type' => 'text'
             ],
             [
                 'url' => '/index.php',
@@ -16,28 +17,84 @@ switch ($_SESSION['user_role'] ?? 'guest') {
         break;
     case 'chief_judge':
         $menuItems = [
-            ['url' => '/competitions.php', 'title' => 'Соревнования'],
-            ['url' => '/judges.php', 'title' => 'Судьи'],
-            ['url' => '/logout.php', 'title' => 'Выход']
+            [
+                'url' => '/competitions.php',
+                'title' => 'Соревнования',
+                'type' => 'text'
+            ],
+            [
+                'url' => '/judges.php',
+                'title' => 'Судьи',
+                'type' => 'text'
+            ],
+            [
+                'url' => '/logout.php',
+                'title' => 'Выход',
+                'type' => 'text'
+            ]
         ];
         break;
     case 'admin':
         $menuItems = [
-            ['url' => '/competitions.php', 'title' => 'Соревнования (подробно)'],
-            ['url' => '/judges.php', 'title' => 'Судьи'],
-            ['url' => '/users.php', 'title' => 'Пользователи'],
-            ['url' => '/account.php', 'title' => 'Личный кабинет'],
-            ['url' => '/logout.php', 'title' => 'Выход']
+            [
+                'url' => '/competitions.php',
+                'title' => 'Соревнования (подробно)',
+                'type' => 'text'
+            ],
+            [
+                'url' => '/judges.php',
+                'title' => 'Судьи',
+                'type' => 'text'
+            ],
+            [
+                'url' => '/users.php',
+                'title' => 'Пользователи',
+                'type' => 'text'
+            ],
+            [
+                'url' => '/account.php',
+                'title' => 'Личный кабинет',
+                'type' => 'text'
+            ],
+            [
+                'url' => '/logout.php',
+                'title' => 'Выход',
+                'type' => 'text'
+            ]
         ];
         break;
 
     default:
         $menuItems = [
-            ['url' => '/account.php', 'title' => 'Личный кабинет'],
-            ['url' => '/logout.php', 'title' => 'Выход']
+            [
+                'url' => '/competitions.php',
+                'title' => 'Соревнования',
+                'type' => 'text'
+            ],
+            [
+                'url' => '/judges.php',
+                'title' => 'Судьи',
+                'type' => 'text'
+            ],
+            [
+                'url' => '/logout.php',
+                'title' => 'Выход',
+                'type' => 'text'
+            ]
         ];
 }
 ?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="32x32" href="/image/favicon-32x32.png">
+
+    <title>ЛА</title>
+    <link rel="stylesheet" href="styles/global.css">
+</head>
 <header>
     <div class="container container-header">
         <a href="/" class="logo">
@@ -60,3 +117,4 @@ switch ($_SESSION['user_role'] ?? 'guest') {
         </nav>
     </div>
 </header>
+<main>
