@@ -4,7 +4,7 @@ switch ($_SESSION['user_role'] ?? 'guest') {
         $menuItems = [
 
             [
-                'url' => '/competitionsGuest.php',
+                'url' => '/competitions.php',
                 'title' => 'Соревнования',
                 'type' => 'text'
             ],
@@ -15,7 +15,7 @@ switch ($_SESSION['user_role'] ?? 'guest') {
             ]
         ];
         break;
-    case 'chief_judge':
+    case 'Главный судья':
         $menuItems = [
             [
                 'url' => '/competitions.php',
@@ -34,11 +34,11 @@ switch ($_SESSION['user_role'] ?? 'guest') {
             ]
         ];
         break;
-    case 'admin':
+    case 'Администратор':
         $menuItems = [
             [
                 'url' => '/competitions.php',
-                'title' => 'Соревнования (подробно)',
+                'title' => 'Соревнования',
                 'type' => 'text'
             ],
             [
@@ -49,11 +49,6 @@ switch ($_SESSION['user_role'] ?? 'guest') {
             [
                 'url' => '/users.php',
                 'title' => 'Пользователи',
-                'type' => 'text'
-            ],
-            [
-                'url' => '/account.php',
-                'title' => 'Личный кабинет',
                 'type' => 'text'
             ],
             [
@@ -114,6 +109,12 @@ switch ($_SESSION['user_role'] ?? 'guest') {
                     </a>
                 <?php endif; ?>
             <?php endforeach; ?>
+            <?php if (isset($_SESSION['user_role'])):  ?>
+                <div class="">
+                    <p><?= $_SESSION['user_login'] ?></p>
+                    <p style="font-size: 12px;color:gray"><?= $_SESSION['user_role'] ?></p>
+                </div>
+            <?php endif ?>
         </nav>
     </div>
 </header>

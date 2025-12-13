@@ -4,7 +4,7 @@ session_start();
 use src\Database\Database;
 
 if (isset($_SESSION['user_id'])) {
-    header('Location: /account.php');
+    header('Location: /competitions.php');
     exit;
 }
 

@@ -42,5 +42,5 @@ $_SESSION['user_id'] = $user['id'];
 $_SESSION['user_login'] = $user['login'];
 $_SESSION['user_role'] = $user['role_name'];
 
-header('Location: /account.php');
+header('Location: /competitions.php');
 exit;

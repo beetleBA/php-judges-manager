@@ -1,4 +1,9 @@
 <?php
+
+session_start();
+$role = $_SESSION["user_role"] ?? 'guest';
+$sqlWhere = $role == 'guest' ? 'where c.start_date <= NOW() and c.end_date >= NOW() ' : 'where 1=1';
+
 require __DIR__ . "/../src/Database/Database.php";
 
 use src\Database\Database;
@@ -18,9 +23,7 @@ case
 end as status
 from competition c
 inner join region r on r.id = c.region_id
-where c.start_date <= NOW() and c.end_date >= NOW() 
---where 1=1
-";
+$sqlWhere";
 
 $params = [];
 
@@ -46,20 +49,38 @@ $status = [
 
 $regionsStmt = $pdo->query("select r.id, r.name from region r order by r.name");
 $regions = $regionsStmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+function getSortLink($val)
+{
+    global $search, $regionFilter, $order;
+    $newOrder = ($order == "asc") ? "desc" : "asc";
+    return "?search=" . urlencode($search) . "&region=$regionFilter&sort=$val&order=$newOrder";
+}
+function getSortArrow($val)
+{
+    global $sort, $order;
+    if ($sort == $val) {
+        return $order == 'asc' ? ' &#x2191;' : ' &#x2193;';
+    }
+    return '';
+}
+
 ?>
 <?php require __DIR__ . '/../src/Views/layout/header.php'; ?>
 
 <div class="container container-competition">
-    <h1>Соревнования</h1>
-    <p style="color: gray">Список текущих соревнований</p>
+    <h3><?= $role == 'guest' ? 'Текущие соревнования' : 'Все соревнования' ?></h3>
+    <!-- <p style="color: gray">Список текущих соревнований</p> -->
+
     <form method="GET" class="container-flex">
         <input
             type="search"
             name="search"
             placeholder="Поиск..."
             value="<?= htmlspecialchars($search) ?>"
-            oninput="setTimeout(() => this.form.submit(), 1000)">
-        <select name="region" id="region"onchange="this.form.submit()">
+            oninput="setTimeout(() => this.form.submit(), 2000)">
+        <select name="region" id="region" onchange="this.form.submit()">
             <option value="">Все регионы</option>
             <?php foreach ($regions as $region): ?>
                 <option value="<?= $region['id'] ?>"
@@ -68,20 +89,31 @@ $regions = $regionsStmt->fetchAll(PDO::FETCH_ASSOC);
                 </option>
             <?php endforeach;   ?>
         </select>
+        <?php if ($role == 'Главный судья' || $role == 'Администратор'): ?>
+            <a href="edit.php"><button type="button">Добавить</button></a>
+        <?php endif; ?>
 
     </form>
     <div class="table">
         <table>
             <thead>
                 <tr>
-                    <th><a href="?search=<?= urlencode($search) ?>&region=<?= $regionFilter ?>&sort=c.id&order=<?= $order == 'asc' ? 'desc' : 'asc' ?>">№</a></th>
-                    <th><a href="?search=<?= urlencode($search) ?>&region=<?= $regionFilter ?>&sort=c.name&order=<?= $order == 'asc' ? 'desc' : 'asc' ?>">Название</a></th>
-                    <th><a href="?search=<?= urlencode($search) ?>&region=<?= $regionFilter ?>&sort=c.start_date&order=<?= $order == 'asc' ? 'desc' : 'asc' ?>">Дата начала</a></th>
-                    <th><a href="?search=<?= urlencode($search) ?>&region=<?= $regionFilter ?>&sort=c.end_date&order=<?= $order == 'asc' ? 'desc' : 'asc' ?>">Дата окончания</a></th>
-                    <th><a href="?search=<?= urlencode($search) ?>&region=<?= $regionFilter ?>&sort=region_name&order=<?= $order == 'asc' ? 'desc' : 'asc' ?>">Место проведения</a></th>
+                    <th><a href="<?= getSortLink('c.id') ?>">№<span><?= getSortArrow('c.id') ?></span></a></th>
+                    <th><a href="<?= getSortLink('c.name') ?>">Название<?= getSortArrow('c.name') ?></a></th>
+                    <th><a href="<?= getSortLink('c.start_date') ?>">Дата начала<?= getSortArrow('c.start_date') ?></a></th>
+                    <th><a href="<?= getSortLink('c.end_date') ?>">Дата окончания<?= getSortArrow('c.end_date') ?></a></th>
+                    <th><a href="<?= getSortLink('r.name') ?>">Место проведения<?= getSortArrow('r.name') ?></a></th>
                     <th>Статус</th>
+                    <?php if ($role == 'Главный судья' || $role == 'Администратор'): ?>
+                        <th>Действия</th>
+                    <?php endif; ?>
+                    <?php if ($role == 'Администратор'): ?>
+                        <th></th>
+                    <?php endif; ?>
+
                 </tr>
             </thead>
+
             <tbody>
                 <?php foreach ($comp as $row): ?>
                     <tr>
@@ -95,6 +127,12 @@ $regions = $regionsStmt->fetchAll(PDO::FETCH_ASSOC);
                                 <?= $status[$row["status"]] ?>
                             </div>
                         </td>
+                        <?php if ($role == 'Главный судья' || $role == 'Администратор'): ?>
+                            <td><a href="edit.php?id=<?= $row['id'] ?>">Редактировать</a></td>
+                        <?php endif; ?>
+                        <?php if ($role == 'Администратор'): ?>
+                            <td><a href="">Удалить</a></td>
+                        <?php endif; ?>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

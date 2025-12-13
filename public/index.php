@@ -3,7 +3,7 @@
 session_start();
 
 if (isset($_SESSION["user_id"])) {
-    header("Location: /account.php");
+    header("Location: /competitions.php");
     exit;
 }
 $error = $_GET["error"] ?? null;
